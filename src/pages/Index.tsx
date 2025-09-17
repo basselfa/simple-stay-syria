@@ -17,7 +17,7 @@ const Index = () => {
   const handleSearch = (data: SearchData) => {
     console.log("Search data:", data);
     // Navigate to search results
-    navigate(`/search?destination=${data.destination}&type=${data.type}`);
+    navigate(`/search?destination=${data.destination}`);
   };
 
   const handleHotelClick = (hotel: Hotel) => {

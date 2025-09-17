@@ -17,7 +17,6 @@ export interface SearchData {
   checkIn: Date | undefined;
   checkOut: Date | undefined;
   guests: number;
-  type: 'hotels' | 'rides';
 }
 
 export const SearchForm = ({ onSearch }: SearchFormProps) => {
@@ -25,7 +24,6 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [guests, setGuests] = useState(2);
-  const [type, setType] = useState<'hotels' | 'rides'>('hotels');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,29 +31,12 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
       destination,
       checkIn,
       checkOut,
-      guests,
-      type
+      guests
     });
   };
 
   return (
     <div className="bg-card rounded-2xl p-6 search-shadow border border-border/20">
-      <div className="flex gap-2 mb-4">
-        <Button 
-          variant={type === 'hotels' ? 'default' : 'outline'}
-          onClick={() => setType('hotels')}
-          className="rounded-full"
-        >
-          Hotels
-        </Button>
-        <Button 
-          variant={type === 'rides' ? 'default' : 'outline'}
-          onClick={() => setType('rides')}
-          className="rounded-full"
-        >
-          Rides
-        </Button>
-      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -63,7 +44,7 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
           <div className="relative">
             <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={type === 'hotels' ? "Where are you going?" : "From where?"}
+              placeholder="Where are you going?"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               className="pl-10"
@@ -136,7 +117,7 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
 
         <Button type="submit" className="w-full bg-primary hover:bg-primary-hover">
           <Search className="mr-2 h-4 w-4" />
-          Search {type}
+          Search Hotels
         </Button>
       </form>
     </div>
