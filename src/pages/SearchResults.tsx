@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { HotelCard, Hotel } from "@/components/HotelCard";
 import { SearchForm, SearchData } from "@/components/SearchForm";
@@ -8,93 +8,50 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filter, Grid, List } from "lucide-react";
-import damascusHotel from "@/assets/damascus-hotel.jpg";
-import aleppoHotel from "@/assets/aleppo-hotel.jpg";
-import lattakiaResort from "@/assets/lattakia-resort.jpg";
+import { useHotels } from "@/hooks/useHotels";
 
 export default function SearchResults() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { hotels, loading, searchHotels } = useHotels();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('price');
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [showFilters, setShowFilters] = useState(false);
 
   const destination = searchParams.get('destination') || '';
-  const type = searchParams.get('type') || 'hotels';
 
-  // Sample search results
-  const searchResults: Hotel[] = [
-    {
-      id: "1",
-      name: "Damascus Palace Hotel",
-      location: "Old City, Damascus",
-      rating: 4.5,
-      reviewCount: 234,
-      price: 85,
-      currency: "USD",
-      image: damascusHotel,
-      amenities: ["wifi", "parking", "breakfast"],
-      distance: "0.5 km from center"
-    },
-    {
-      id: "2", 
-      name: "Aleppo Heritage Suites",
-      location: "Historic Quarter, Aleppo",
-      rating: 4.3,
-      reviewCount: 189,
-      price: 65,
-      currency: "USD",
-      image: aleppoHotel,
-      amenities: ["wifi", "breakfast"],
-      distance: "0.8 km from center"
-    },
-    {
-      id: "3",
-      name: "Lattakia Seaside Resort",
-      location: "Mediterranean Coast, Lattakia",
-      rating: 4.7,
-      reviewCount: 312,
-      price: 120,
-      currency: "USD", 
-      image: lattakiaResort,
-      amenities: ["wifi", "parking", "breakfast"],
-      distance: "Beachfront"
-    },
-    {
-      id: "4",
-      name: "Central Damascus Hotel",
-      location: "New Damascus",
-      rating: 4.2,
-      reviewCount: 156,
-      price: 75,
-      currency: "USD",
-      image: damascusHotel,
-      amenities: ["wifi", "parking"],
-      distance: "1.2 km from center"
-    },
-    {
-      id: "5",
-      name: "Aleppo Citadel View",
-      location: "Near Citadel, Aleppo",
-      rating: 4.6,
-      reviewCount: 203,
-      price: 95,
-      currency: "USD",
-      image: aleppoHotel,
-      amenities: ["wifi", "breakfast"],
-      distance: "0.3 km from citadel"
-    }
-  ];
+  useEffect(() => {
+    searchHotels(destination);
+  }, [destination]);
 
   const handleSearch = (data: SearchData) => {
-    console.log("New search:", data);
-    // Update search params and results
+    const params = new URLSearchParams();
+    if (data.destination) params.set('destination', data.destination);
+    if (data.checkIn) params.set('checkIn', data.checkIn.toISOString());
+    if (data.checkOut) params.set('checkOut', data.checkOut.toISOString());
+    params.set('guests', data.guests.toString());
+    
+    setSearchParams(params);
   };
 
-  const handleHotelClick = (hotel: Hotel) => {
-    console.log("Hotel clicked:", hotel);
-    // Navigate to hotel details
+  const handleHotelClick = (hotelId: string) => {
+    navigate(`/hotel/${hotelId}`);
   };
+
+  // Convert Supabase hotel format to component format
+  const searchResults = hotels.map(hotel => ({
+    id: hotel.id,
+    name: hotel.name,
+    location: hotel.location,
+    rating: hotel.rating || 0,
+    reviewCount: 0,
+    price: hotel.price_per_night,
+    currency: "USD",
+    image: hotel.image_url || "/placeholder.svg",
+    amenities: hotel.amenities || [],
+    distance: ""
+  }));
 
   const filteredResults = searchResults.filter(hotel => 
     hotel.price >= priceRange[0] && hotel.price <= priceRange[1]
@@ -118,10 +75,10 @@ export default function SearchResults() {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">
-              {type === 'hotels' ? 'Hotels' : 'Rides'} in {destination || 'Syria'}
+              Hotels in {destination || 'Syria'}
             </h1>
             <p className="text-muted-foreground">
-              {filteredResults.length} properties found
+              {loading ? 'Searching...' : `${filteredResults.length} properties found`}
             </p>
           </div>
           
@@ -229,13 +186,17 @@ export default function SearchResults() {
               ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" 
               : "space-y-4"
             }>
-              {filteredResults.map((hotel) => (
-                <HotelCard 
-                  key={hotel.id} 
-                  hotel={hotel} 
-                  onClick={handleHotelClick}
-                />
-              ))}
+              {loading ? (
+                <div className="text-center py-8">Loading hotels...</div>
+              ) : (
+                filteredResults.map((hotel) => (
+                  <HotelCard 
+                    key={hotel.id} 
+                    hotel={hotel} 
+                    onClick={() => handleHotelClick(hotel.id)}
+                  />
+                ))
+              )}
             </div>
 
             {filteredResults.length === 0 && (

@@ -37,7 +37,6 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   return (
     <div className="bg-card rounded-2xl p-6 search-shadow border border-border/20">
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Destination */}

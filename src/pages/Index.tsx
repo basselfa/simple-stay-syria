@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { SearchForm, SearchData } from "@/components/SearchForm";
@@ -6,63 +6,40 @@ import { HotelCard, Hotel } from "@/components/HotelCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plane, Car, MapPin, Users, Star } from "lucide-react";
+import { useHotels } from "@/hooks/useHotels";
 import syriaHero from "@/assets/syria-hero.jpg";
-import damascusHotel from "@/assets/damascus-hotel.jpg";
-import aleppoHotel from "@/assets/aleppo-hotel.jpg";
-import lattakiaResort from "@/assets/lattakia-resort.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { hotels, loading } = useHotels();
   
   const handleSearch = (data: SearchData) => {
-    console.log("Search data:", data);
-    // Navigate to search results
-    navigate(`/search?destination=${data.destination}`);
+    const params = new URLSearchParams();
+    if (data.destination) params.set('destination', data.destination);
+    if (data.checkIn) params.set('checkIn', data.checkIn.toISOString());
+    if (data.checkOut) params.set('checkOut', data.checkOut.toISOString());
+    params.set('guests', data.guests.toString());
+    
+    navigate(`/search?${params.toString()}`);
   };
 
-  const handleHotelClick = (hotel: Hotel) => {
-    navigate(`/hotel/${hotel.id}`);
+  const handleHotelClick = (hotelId: string) => {
+    navigate(`/hotel/${hotelId}`);
   };
 
-  // Sample hotels data
-  const featuredHotels: Hotel[] = [
-    {
-      id: "1",
-      name: "Damascus Palace Hotel",
-      location: "Old City, Damascus",
-      rating: 4.5,
-      reviewCount: 234,
-      price: 85,
-      currency: "USD",
-      image: damascusHotel,
-      amenities: ["wifi", "parking", "breakfast"],
-      distance: "0.5 km from center"
-    },
-    {
-      id: "2", 
-      name: "Aleppo Heritage Suites",
-      location: "Historic Quarter, Aleppo",
-      rating: 4.3,
-      reviewCount: 189,
-      price: 65,
-      currency: "USD",
-      image: aleppoHotel,
-      amenities: ["wifi", "breakfast"],
-      distance: "0.8 km from center"
-    },
-    {
-      id: "3",
-      name: "Lattakia Seaside Resort",
-      location: "Mediterranean Coast, Lattakia",
-      rating: 4.7,
-      reviewCount: 312,
-      price: 120,
-      currency: "USD", 
-      image: lattakiaResort,
-      amenities: ["wifi", "parking", "breakfast"],
-      distance: "Beachfront"
-    }
-  ];
+  // Convert Supabase hotel format to component format
+  const featuredHotels = hotels.slice(0, 3).map(hotel => ({
+    id: hotel.id,
+    name: hotel.name,
+    location: hotel.location,
+    rating: hotel.rating || 0,
+    reviewCount: 0, // This would come from a reviews table
+    price: hotel.price_per_night,
+    currency: "USD",
+    image: hotel.image_url || "/placeholder.svg",
+    amenities: hotel.amenities || [],
+    distance: ""
+  }));
 
   const popularDestinations = [
     { name: "Damascus", hotels: 234, image: "/placeholder.svg" },
@@ -134,13 +111,17 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredHotels.map((hotel) => (
-              <HotelCard 
-                key={hotel.id} 
-                hotel={hotel} 
-                onClick={handleHotelClick}
-              />
-            ))}
+            {loading ? (
+              <div className="text-center py-8">Loading hotels...</div>
+            ) : (
+              featuredHotels.map((hotel) => (
+                <HotelCard 
+                  key={hotel.id} 
+                  hotel={hotel} 
+                  onClick={() => handleHotelClick(hotel.id)}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -199,13 +180,13 @@ const Index = () => {
             
             <div className="bg-card rounded-xl p-8 border border-border/20">
               <div className="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Car className="h-8 w-8 text-accent" />
+                <Users className="h-8 w-8 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Transportation</h3>
+              <h3 className="text-xl font-semibold mb-4">Guest Services</h3>
               <p className="text-muted-foreground mb-4">
-                Book reliable taxis, private drivers, and transportation services to get around safely and comfortably.
+                24/7 customer support to help you with bookings, special requests, and local recommendations.
               </p>
-              <Button variant="outline">Book Rides</Button>
+              <Button variant="outline">Contact Support</Button>
             </div>
           </div>
         </div>
