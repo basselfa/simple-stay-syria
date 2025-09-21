@@ -56,7 +56,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative h-[70vh] overflow-hidden">
+      <section className="relative h-[80vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${syriaHero})` }}
@@ -64,7 +64,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 damascus-pattern opacity-10" />
         
-        <div className="relative z-10 container mx-auto px-4 text-center">
+        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
             {t('hero.title')}
           </h1>
