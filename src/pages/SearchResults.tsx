@@ -9,11 +9,13 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filter, Grid, List } from "lucide-react";
 import { useHotels } from "@/hooks/useHotels";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { hotels, loading, searchHotels } = useHotels();
+  const { t, isRTL, getCityName } = useLanguage();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('price');
   const [priceRange, setPriceRange] = useState([0, 200]);
@@ -72,35 +74,35 @@ export default function SearchResults() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Results Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8">
+        <div className={`flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">
-              Hotels in {destination || 'Syria'}
+              {t('search.hotels_in')} {getCityName(destination || 'Syria')}
             </h1>
             <p className="text-muted-foreground">
-              {loading ? 'Searching...' : `${filteredResults.length} properties found`}
+              {loading ? t('search.searching') : `${filteredResults.length} ${t('search.properties_found')}`}
             </p>
           </div>
           
-          <div className="flex items-center space-x-4 mt-4 lg:mt-0">
+          <div className={`flex items-center space-x-4 mt-4 lg:mt-0 ${isRTL ? 'space-x-reverse' : ''}`}>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setShowFilters(!showFilters)}
             >
-              <Filter className="h-4 w-4 mr-2" />
-              Filters
+              <Filter className={`${isRTL ? 'ml-2' : 'mr-2'} h-4 w-4`} />
+              {t('search.filters')}
             </Button>
             
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Sort by" />
+                <SelectValue placeholder={t('search.sort_by')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="price">Price: Low to High</SelectItem>
-                <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                <SelectItem value="rating">Rating</SelectItem>
-                <SelectItem value="distance">Distance</SelectItem>
+                <SelectItem value="price">{t('search.price_low_high')}</SelectItem>
+                <SelectItem value="price-desc">{t('search.price_high_low')}</SelectItem>
+                <SelectItem value="rating">{t('search.rating')}</SelectItem>
+                <SelectItem value="distance">{t('search.distance')}</SelectItem>
               </SelectContent>
             </Select>
             

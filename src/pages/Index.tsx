@@ -7,11 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plane, Car, MapPin, Users, Star } from "lucide-react";
 import { useHotels } from "@/hooks/useHotels";
+import { useLanguage } from "@/contexts/LanguageContext";
 import syriaHero from "@/assets/syria-hero.jpg";
+import { GuestServices } from "@/components/GuestServices";
 
 const Index = () => {
   const navigate = useNavigate();
   const { hotels, loading } = useHotels();
+  const { t, isRTL } = useLanguage();
   
   const handleSearch = (data: SearchData) => {
     const params = new URLSearchParams();
@@ -53,8 +56,8 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
-        <div 
+      <section className="relative h-[70vh] overflow-hidden">
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${syriaHero})` }}
         />
@@ -63,11 +66,10 @@ const Index = () => {
         
         <div className="relative z-10 container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            Discover Syria
+            {t('hero.title')}
           </h1>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Experience the rich history, warm hospitality, and breathtaking landscapes of Syria. 
-            Find hotels, book rides, and create unforgettable memories.
+            {t('hero.subtitle')}
           </p>
           
           <div className="max-w-4xl mx-auto">
@@ -157,7 +159,7 @@ const Index = () => {
       </section> */}
 
       {/* Services */}
-      <section className="py-16">
+      {/* <section className="py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-4">Guest Services</h2>
           <p className="text-muted-foreground mb-6">
@@ -168,7 +170,10 @@ const Index = () => {
             <p>simplesstaysyria@gmail.com</p>
           </div>
         </div>
-      </section>stays
+      </section> */}
+
+      {/* Simple Guest Services */}
+      <GuestServices />
 
 
     </div>
