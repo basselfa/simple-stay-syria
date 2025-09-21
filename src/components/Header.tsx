@@ -12,7 +12,7 @@ export const Header = () => {
             <div className="bg-secondary rounded-lg p-2">
               {/* <MapPin className="h-6 w-6 text-primary-foreground" /> */}
               <img 
-                src="/favicon.png" 
+                src="/favicon.ico" 
                 alt="StaySyria Logo" 
                 className="h-6 w-6"
               />
