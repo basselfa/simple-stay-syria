@@ -165,10 +165,10 @@ const Index = () => {
           </p>
           <div className="space-y-2 text-muted-foreground">
             <p>+49 1577 2062066</p>
-            <p>staysimplesyria@gmail.com</p>
+            <p>simplesstaysyria@gmail.com</p>
           </div>
         </div>
-      </section>
+      </section>stays
 
 
     </div>
