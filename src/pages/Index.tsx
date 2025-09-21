@@ -56,7 +56,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative h-[80vh] overflow-hidden">
+      <section className="relative h-[80vh] md:h-[85vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${syriaHero})` }}
@@ -64,15 +64,15 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 damascus-pattern opacity-10" />
         
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center py-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
             {t('hero.title')}
           </h1>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
             {t('hero.subtitle')}
           </p>
           
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto w-full px-4">
             <SearchForm onSearch={handleSearch} />
           </div>
         </div>
