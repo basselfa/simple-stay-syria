@@ -157,3 +157,89 @@ All colors MUST be HSL.
 [dir="rtl"] {
   font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Arabic Calendar Number Conversion */
+.arabic-calendar .rdp-day {
+  font-variant-numeric: normal;
+}
+
+/* Convert numbers to Arabic in calendar */
+.arabic-calendar .rdp-day[data-day="1"] { content: "١"; }
+.arabic-calendar .rdp-day[data-day="2"] { content: "٢"; }
+.arabic-calendar .rdp-day[data-day="3"] { content: "٣"; }
+.arabic-calendar .rdp-day[data-day="4"] { content: "٤"; }
+.arabic-calendar .rdp-day[data-day="5"] { content: "٥"; }
+.arabic-calendar .rdp-day[data-day="6"] { content: "٦"; }
+.arabic-calendar .rdp-day[data-day="7"] { content: "٧"; }
+.arabic-calendar .rdp-day[data-day="8"] { content: "٨"; }
+.arabic-calendar .rdp-day[data-day="9"] { content: "٩"; }
+.arabic-calendar .rdp-day[data-day="10"] { content: "١٠"; }
+.arabic-calendar .rdp-day[data-day="11"] { content: "١١"; }
+.arabic-calendar .rdp-day[data-day="12"] { content: "١٢"; }
+.arabic-calendar .rdp-day[data-day="13"] { content: "١٣"; }
+.arabic-calendar .rdp-day[data-day="14"] { content: "١٤"; }
+.arabic-calendar .rdp-day[data-day="15"] { content: "١٥"; }
+.arabic-calendar .rdp-day[data-day="16"] { content: "١٦"; }
+.arabic-calendar .rdp-day[data-day="17"] { content: "١٧"; }
+.arabic-calendar .rdp-day[data-day="18"] { content: "١٨"; }
+.arabic-calendar .rdp-day[data-day="19"] { content: "١٩"; }
+.arabic-calendar .rdp-day[data-day="20"] { content: "٢٠"; }
+.arabic-calendar .rdp-day[data-day="21"] { content: "٢١"; }
+.arabic-calendar .rdp-day[data-day="22"] { content: "٢٢"; }
+.arabic-calendar .rdp-day[data-day="23"] { content: "٢٣"; }
+.arabic-calendar .rdp-day[data-day="24"] { content: "٢٤"; }
+.arabic-calendar .rdp-day[data-day="25"] { content: "٢٥"; }
+.arabic-calendar .rdp-day[data-day="26"] { content: "٢٦"; }
+.arabic-calendar .rdp-day[data-day="27"] { content: "٢٧"; }
+.arabic-calendar .rdp-day[data-day="28"] { content: "٢٨"; }
+.arabic-calendar .rdp-day[data-day="29"] { content: "٢٩"; }
+.arabic-calendar .rdp-day[data-day="30"] { content: "٣٠"; }
+.arabic-calendar .rdp-day[data-day="31"] { content: "٣١"; }
+
+/* Alternative approach using CSS counters */
+.arabic-calendar .rdp-day::before {
+  content: counter(day-counter);
+  counter-increment: day-counter;
+}
+
+.arabic-calendar .rdp-day[data-day="1"]::before { content: "١"; }
+.arabic-calendar .rdp-day[data-day="2"]::before { content: "٢"; }
+.arabic-calendar .rdp-day[data-day="3"]::before { content: "٣"; }
+.arabic-calendar .rdp-day[data-day="4"]::before { content: "٤"; }
+.arabic-calendar .rdp-day[data-day="5"]::before { content: "٥"; }
+.arabic-calendar .rdp-day[data-day="6"]::before { content: "٦"; }
+.arabic-calendar .rdp-day[data-day="7"]::before { content: "٧"; }
+.arabic-calendar .rdp-day[data-day="8"]::before { content: "٨"; }
+.arabic-calendar .rdp-day[data-day="9"]::before { content: "٩"; }
+.arabic-calendar .rdp-day[data-day="10"]::before { content: "١٠"; }
+.arabic-calendar .rdp-day[data-day="11"]::before { content: "١١"; }
+.arabic-calendar .rdp-day[data-day="12"]::before { content: "١٢"; }
+.arabic-calendar .rdp-day[data-day="13"]::before { content: "١٣"; }
+.arabic-calendar .rdp-day[data-day="14"]::before { content: "١٤"; }
+.arabic-calendar .rdp-day[data-day="15"]::before { content: "١٥"; }
+.arabic-calendar .rdp-day[data-day="16"]::before { content: "١٦"; }
+.arabic-calendar .rdp-day[data-day="17"]::before { content: "١٧"; }
+.arabic-calendar .rdp-day[data-day="18"]::before { content: "١٨"; }
+.arabic-calendar .rdp-day[data-day="19"]::before { content: "١٩"; }
+.arabic-calendar .rdp-day[data-day="20"]::before { content: "٢٠"; }
+.arabic-calendar .rdp-day[data-day="21"]::before { content: "٢١"; }
+.arabic-calendar .rdp-day[data-day="22"]::before { content: "٢٢"; }
+.arabic-calendar .rdp-day[data-day="23"]::before { content: "٢٣"; }
+.arabic-calendar .rdp-day[data-day="24"]::before { content: "٢٤"; }
+.arabic-calendar .rdp-day[data-day="25"]::before { content: "٢٥"; }
+.arabic-calendar .rdp-day[data-day="26"]::before { content: "٢٦"; }
+.arabic-calendar .rdp-day[data-day="27"]::before { content: "٢٧"; }
+.arabic-calendar .rdp-day[data-day="28"]::before { content: "٢٨"; }
+.arabic-calendar .rdp-day[data-day="29"]::before { content: "٢٩"; }
+.arabic-calendar .rdp-day[data-day="30"]::before { content: "٣٠"; }
+.arabic-calendar .rdp-day[data-day="31"]::before { content: "٣١"; }
+
+/* Hide original numbers */
+.arabic-calendar .rdp-day {
+  font-size: 0;
+}
+
+.arabic-calendar .rdp-day::before {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

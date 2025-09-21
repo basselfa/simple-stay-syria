@@ -12,11 +12,11 @@ export const GuestServices = () => {
         </p>
         
         <div className="space-y-2">
-          <p className="text-lg font-semibold" dir="ltr">
-            📞 {t('services.phone')}
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto" dir="ltr">
+             {t('services.phone')}
           </p>
-          <p className="text-lg font-semibold" dir="ltr">
-            ✉️ {t('services.email')}
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto" dir="ltr">
+            {t('services.email')}
           </p>
         </div>
       </div>

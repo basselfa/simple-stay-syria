@@ -57,7 +57,7 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="relative h-[80vh] md:h-[85vh] overflow-hidden">
-        <div
+        <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${syriaHero})` }}
         />
