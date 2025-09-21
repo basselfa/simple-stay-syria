@@ -9,16 +9,21 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-primary rounded-lg p-2">
-              <MapPin className="h-6 w-6 text-primary-foreground" />
+            <div className="bg-secondary rounded-lg p-2">
+              {/* <MapPin className="h-6 w-6 text-primary-foreground" /> */}
+              <img 
+                src="/favicon.png" 
+                alt="StaySyria Logo" 
+                className="h-6 w-6"
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">StaySyria</h1>
+              <h1 className="text-2xl font-bold text-foreground">SimpleStaySyria</h1>
               <p className="text-xs text-muted-foreground">Discover Syria</p>
             </div>
           </Link>
 
-          {/* Navigation */}
+          {/* Navigation
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/hotels" className="text-foreground hover:text-primary transition-colors">
               Hotels
@@ -29,20 +34,23 @@ export const Header = () => {
             <Link to="/destinations" className="text-foreground hover:text-primary transition-colors">
               Destinations
             </Link>
-          </nav>
+          </nav> */}
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="sm">
-              <Globe className="h-4 w-4 mr-2" />
+              {/* <Globe className="h-4 w-4 mr-2" /> */}
               EN
             </Button>
-            <Link to="/auth">
+            <Button variant="ghost" size="sm">
+              AR
+            </Button>
+            {/* <Link to="/auth">
               <Button variant="outline" size="sm">
                 <User className="h-4 w-4 mr-2" />
                 Sign In
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

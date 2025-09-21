@@ -77,7 +77,7 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-muted/30">
+      {/* <section className="py-12 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
@@ -98,10 +98,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Featured Hotels */}
-      <section className="py-16">
+      {/* <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">Featured Hotels</h2>
@@ -124,10 +124,10 @@ const Index = () => {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Popular Destinations */}
-      <section className="py-16 bg-muted/30">
+      {/* <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">Popular Destinations</h2>
@@ -154,43 +154,23 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Services */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Our Services</h2>
-            <p className="text-muted-foreground">
-              Everything you need for your journey in Syria
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-card rounded-xl p-8 border border-border/20">
-              <div className="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <MapPin className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4">Hotel Booking</h3>
-              <p className="text-muted-foreground mb-4">
-                Find and book the perfect accommodation from budget-friendly options to luxury hotels across Syria.
-              </p>
-              <Button variant="outline">Explore Hotels</Button>
-            </div>
-            
-            <div className="bg-card rounded-xl p-8 border border-border/20">
-              <div className="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Users className="h-8 w-8 text-accent" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4">Guest Services</h3>
-              <p className="text-muted-foreground mb-4">
-                24/7 customer support to help you with bookings, special requests, and local recommendations.
-              </p>
-              <Button variant="outline">Contact Support</Button>
-            </div>
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-4">Guest Services</h2>
+          <p className="text-muted-foreground mb-6">
+            24/7 customer support to help you with bookings, special requests, and local recommendations.
+          </p>
+          <div className="space-y-2 text-muted-foreground">
+            <p>+49 1577 2062066</p>
+            <p>staysimplesyria@gmail.com</p>
           </div>
         </div>
       </section>
+
+
     </div>
   );
 };
