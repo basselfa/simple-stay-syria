@@ -127,7 +127,7 @@ export default function SearchResults() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          {showFilters && (
+          {/* {showFilters && (
             <div className="lg:w-64 space-y-6">
               <div className="bg-card rounded-lg p-6 border border-border/20">
                 <h3 className="font-semibold mb-4">Price Range</h3>
@@ -180,7 +180,7 @@ export default function SearchResults() {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Results Grid */}
           <div className="flex-1">
