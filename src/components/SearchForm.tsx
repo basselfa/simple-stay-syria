@@ -10,6 +10,7 @@ import { MapPin, Calendar as CalendarIcon, Users, Search, Check, ChevronsUpDown 
 import { format, startOfDay, addDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCities } from "@/hooks/useCities";
 
 interface SearchFormProps {
   onSearch: (data: SearchData) => void;
@@ -22,14 +23,9 @@ export interface SearchData {
   guests: number;
 }
 
-// Available cities
-const cities = [
-  'Damascus', 'Aleppo', 'Lattakia', 'Homs', 'Hama', 'Tartus', 
-  'Raqqa', 'Idlib', 'Daraa', 'Sweida', 'Quneitra', 'Hasaka', 'Kobani'
-];
-
 export const SearchForm = ({ onSearch }: SearchFormProps) => {
   const { t, isRTL, getCityName, formatDate } = useLanguage();
+  const { cities, loading: citiesLoading } = useCities();
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState<Date | undefined>(undefined);
   const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
@@ -83,7 +79,13 @@ export const SearchForm = ({ onSearch }: SearchFormProps) => {
               <PopoverContent className="w-full p-0" align="start">
                 <Command>
                   <CommandList>
-                    <CommandEmpty>No city found.</CommandEmpty>
+                    {citiesLoading ? (
+                      <CommandEmpty>Loading cities...</CommandEmpty>
+                    ) : cities.length === 0 ? (
+                      <CommandEmpty>No cities found. Add some hotels to your database.</CommandEmpty>
+                    ) : (
+                      <CommandEmpty>No city found.</CommandEmpty>
+                    )}
                     <CommandGroup>
                       {cities.map((city) => (
                         <CommandItem

@@ -9,12 +9,14 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Filter, Grid, List } from "lucide-react";
 import { useHotels } from "@/hooks/useHotels";
+import { useRoomSearch } from "@/hooks/useRoomSearch";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { hotels, loading, searchHotels } = useHotels();
+  const { availableRooms, loading: roomsLoading, searchAvailableRooms } = useRoomSearch();
   const { t, isRTL, getCityName } = useLanguage();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('price');
@@ -22,10 +24,18 @@ export default function SearchResults() {
   const [showFilters, setShowFilters] = useState(false);
 
   const destination = searchParams.get('destination') || '';
+  const checkIn = searchParams.get('checkIn');
+  const checkOut = searchParams.get('checkOut');
 
   useEffect(() => {
-    searchHotels(destination);
-  }, [destination]);
+    if (checkIn && checkOut) {
+      // Search for available rooms with dates
+      searchAvailableRooms(destination, checkIn, checkOut);
+    } else {
+      // Search for hotels only
+      searchHotels(destination);
+    }
+  }, [destination, checkIn, checkOut]);
 
   const handleSearch = (data: SearchData) => {
     const params = new URLSearchParams();
@@ -41,19 +51,41 @@ export default function SearchResults() {
     navigate(`/hotel/${hotelId}`);
   };
 
-  // Convert Supabase hotel format to component format
-  const searchResults = hotels.map(hotel => ({
-    id: hotel.id,
-    name: hotel.name,
-    location: hotel.location,
-    rating: hotel.rating || 0,
-    reviewCount: 0,
-    price: hotel.price_per_night,
-    currency: "USD",
-    image: hotel.image_url || "/placeholder.svg",
-    amenities: hotel.amenities || [],
-    distance: ""
-  }));
+  // Convert data to component format - prioritize rooms if available
+  const searchResults = (checkIn && checkOut ? availableRooms : hotels).map(item => {
+    if ('hotels' in item) {
+      // Room item
+      return {
+        id: `${item.hotels.id}-${item.id}`, // Unique ID for room
+        name: `${item.hotels.name} - ${item.type}`,
+        location: `${item.hotels.city}, ${item.hotels.address}`,
+        rating: 0,
+        reviewCount: 0,
+        price: Number(item.price),
+        currency: "USD",
+        image: "/placeholder.svg",
+        amenities: [],
+        distance: "",
+        hotelId: item.hotels.id,
+        roomId: item.id,
+        roomType: item.type
+      };
+    } else {
+      // Hotel item
+      return {
+        id: item.id,
+        name: item.name,
+        location: `${item.city}, ${item.address}`,
+        rating: 0,
+        reviewCount: 0,
+        price: item.min_price || 0,
+        currency: "USD",
+        image: "/placeholder.svg",
+        amenities: [],
+        distance: ""
+      };
+    }
+  });
 
   const filteredResults = searchResults.filter(hotel => 
     hotel.price >= priceRange[0] && hotel.price <= priceRange[1]
@@ -80,7 +112,7 @@ export default function SearchResults() {
               {t('search.hotels_in')} {getCityName(destination || 'Syria')}
             </h1>
             <p className="text-muted-foreground">
-              {loading ? t('search.searching') : `${filteredResults.length} ${t('search.properties_found')}`}
+              {(loading || roomsLoading) ? t('search.searching') : `${filteredResults.length} ${t('search.properties_found')}`}
             </p>
           </div>
           
@@ -188,7 +220,7 @@ export default function SearchResults() {
               ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" 
               : "space-y-4"
             }>
-              {loading ? (
+              {(loading || roomsLoading) ? (
                 <div className="text-center py-8">Loading hotels...</div>
               ) : (
                 filteredResults.map((hotel) => (

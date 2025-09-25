@@ -14,46 +14,58 @@ export type Database = {
   }
   public: {
     Tables: {
-      bookings: {
+      hotels: {
         Row: {
-          check_in_date: string
-          check_out_date: string
-          created_at: string
-          guests: number
-          hotel_id: string
           id: string
-          status: string | null
-          total_price: number
-          updated_at: string
-          user_id: string
+          name: string
+          city: string
+          address: string
+          description: string | null
+          created_at: string
         }
         Insert: {
-          check_in_date: string
-          check_out_date: string
-          created_at?: string
-          guests?: number
-          hotel_id: string
           id?: string
-          status?: string | null
-          total_price: number
-          updated_at?: string
-          user_id: string
+          name: string
+          city: string
+          address: string
+          description?: string | null
+          created_at?: string
         }
         Update: {
-          check_in_date?: string
-          check_out_date?: string
-          created_at?: string
-          guests?: number
-          hotel_id?: string
           id?: string
-          status?: string | null
-          total_price?: number
-          updated_at?: string
-          user_id?: string
+          name?: string
+          city?: string
+          address?: string
+          description?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      rooms: {
+        Row: {
+          id: string
+          hotel_id: string
+          type: string
+          price: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          hotel_id: string
+          type: string
+          price: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          hotel_id?: string
+          type?: string
+          price?: number
+          created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "bookings_hotel_id_fkey"
+            foreignKeyName: "rooms_hotel_id_fkey"
             columns: ["hotel_id"]
             isOneToOne: false
             referencedRelation: "hotels"
@@ -61,74 +73,37 @@ export type Database = {
           },
         ]
       }
-      hotels: {
+      bookings: {
         Row: {
-          amenities: string[] | null
-          available_rooms: number | null
-          created_at: string
-          description: string | null
           id: string
-          image_url: string | null
-          location: string
-          name: string
-          price_per_night: number
-          rating: number | null
-          updated_at: string
+          room_id: string
+          booked_date: string
+          status: string | null
+          created_at: string
         }
         Insert: {
-          amenities?: string[] | null
-          available_rooms?: number | null
-          created_at?: string
-          description?: string | null
           id?: string
-          image_url?: string | null
-          location: string
-          name: string
-          price_per_night: number
-          rating?: number | null
-          updated_at?: string
+          room_id: string
+          booked_date: string
+          status?: string | null
+          created_at?: string
         }
         Update: {
-          amenities?: string[] | null
-          available_rooms?: number | null
-          created_at?: string
-          description?: string | null
           id?: string
-          image_url?: string | null
-          location?: string
-          name?: string
-          price_per_night?: number
-          rating?: number | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          full_name: string | null
-          id: string
-          phone: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
+          room_id?: string
+          booked_date?: string
+          status?: string | null
           created_at?: string
-          full_name?: string | null
-          id?: string
-          phone?: string | null
-          updated_at?: string
-          user_id: string
         }
-        Update: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          phone?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "bookings_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
